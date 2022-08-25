@@ -18,6 +18,11 @@ void ADCharacter::BeginPlay()
 	
 }
 
+void ADCharacter::MoveHorizontal(float Value)
+{
+	AddMovementInput(FVector::RightVector * Value);
+}
+
 // Called every frame
 void ADCharacter::Tick(float DeltaTime)
 {
@@ -30,5 +35,8 @@ void ADCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis("MoveHorizontal", this, &ADCharacter::MoveHorizontal);
+
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADCharacter::Jump);
 }
 

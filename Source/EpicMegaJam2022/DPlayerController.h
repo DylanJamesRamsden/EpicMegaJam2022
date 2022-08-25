@@ -14,4 +14,14 @@ class EPICMEGAJAM2022_API ADPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
+protected:
+	UPROPERTY()
+	ACameraActor* LevelCamera;
+
+public:
+
+	// ¬ Begin APlayerController interface
+	virtual void BeginPlay() override;
+	// ¬ End APlayerController interface
+	
 };

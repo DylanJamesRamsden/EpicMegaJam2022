@@ -22,6 +22,8 @@ protected:
 	// Moves the character either right or left, depending on the player input
 	void MoveHorizontal(float Value);
 
+	// ~ Start jump logic
+
 	void JumpStart();
 
 	void JumpEnd();
@@ -30,8 +32,6 @@ protected:
 	float JumpCharge;
 
 	bool bIsChargingJump;
-	
-	float bIsFalling;
 
 	// Used as a buffer when the player tries to charge a jump while they are falling
 	// When they hit the ground, the jump will start charging
@@ -39,24 +39,42 @@ protected:
 
 	bool bLockMovement;
 
+	// ~ End jump logic
+
+	void Smash();
+
+	// Unlocks our characters movement comp after the smash lock movement timer is complete
+	void OnSmashMovementLockComplete() const;
+
+	// Indicates whether or not the character is in the middle of a smash sequence
+	bool bSmashing;
+
 public:
 
 	// The velocity of a jump with an empty jump charge
-	UPROPERTY(EditDefaultsOnly, Category = "Jumping")
+	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")
 	float MinJumpVelocity;
 
 	// The velocity of a jump with a full jump charge
-	UPROPERTY(EditDefaultsOnly, Category = "Jumping")
+	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")
 	float MaxJumpVelocity;
 
 	// The time it takes to fully charge up a jump
-	UPROPERTY(EditDefaultsOnly, Category = "Jumping")
+	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")
 	float JumpChargeDuration;
 
 	// At what threshold should our character not be able to move when charging a jump.
 	// 0 means there is no threshold and the character's movement won't be locked
-	UPROPERTY(EditDefaultsOnly, Category = "Jumping")
+	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")
 	float MovementLockThresholdOnJumpCharge;
+
+	// The velocity at which our character smashes underneath them
+	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")
+	float SmashVelocity;
+
+	// The velocity at which our character smashes underneath them
+	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")
+	float SmashMovementLockOnHitTime;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

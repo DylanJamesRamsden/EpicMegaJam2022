@@ -35,7 +35,7 @@ void ADCharacter::MoveHorizontal(float Value)
 void ADCharacter::JumpStart()
 {
 	// We can only start charging a jump if we are not falling
-	if (!bIsFalling)
+	if (!GetCharacterMovement()->IsFalling())
 	{
 		bIsChargingJump = true;
 	}
@@ -48,7 +48,7 @@ void ADCharacter::JumpStart()
 void ADCharacter::JumpEnd()
 {
 	// We can only stop charging a jump and jump if we are not falling
-	if (!bIsFalling)
+	if (!GetCharacterMovement()->IsFalling())
 	{
 		// We get our jump velocity based on a lerp between our min jump and max jump. The alpha is our jump charge
 		const float JumpVelocity = FMath::Lerp(MinJumpVelocity, MaxJumpVelocity, JumpCharge);
@@ -57,13 +57,27 @@ void ADCharacter::JumpEnd()
 
 		JumpCharge = 0;
 		bIsChargingJump = false;
-		bIsFalling = true;
 		bLockMovement = false;
 	}
 	else
 	{
 		if (bIsBufferingJump) bIsBufferingJump = false;
 	}
+}
+
+void ADCharacter::Smash()
+{
+	if (!bSmashing && GetCharacterMovement()->IsFalling())
+	{
+		bSmashing = true;
+		
+		LaunchCharacter(FVector(0.0f, 0.0f, SmashVelocity), true, true);
+	}
+}
+
+void ADCharacter::OnSmashMovementLockComplete() const
+{
+	GetCharacterMovement()->SetDefaultMovementMode();
 }
 
 // Called every frame
@@ -99,18 +113,33 @@ void ADCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADCharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADCharacter::JumpStart);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ADCharacter::JumpEnd);
+
+	PlayerInputComponent->BindAction("Smash", IE_Pressed, this, &ADCharacter::Smash);
 }
 
 void ADCharacter::Landed(const FHitResult& Hit)
 {
 	Super::Landed(Hit);
 
-	bIsFalling = false;
-
 	if (bIsBufferingJump)
 	{
 		bIsChargingJump = true;
 		bIsBufferingJump = false;
+	}
+
+	if (bSmashing)
+	{
+		bSmashing = false;
+
+		if (SmashMovementLockOnHitTime > 0)
+		{
+			// Disables our movement on smash impact
+			GetCharacterMovement()->DisableMovement();
+			
+			FTimerHandle SmashMovementLockTimerHandle;
+			GetWorldTimerManager().SetTimer(SmashMovementLockTimerHandle, this, &ADCharacter::OnSmashMovementLockComplete,
+				SmashMovementLockOnHitTime, false);
+		}
 	}
 }
 

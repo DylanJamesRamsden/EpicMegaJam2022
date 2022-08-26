@@ -14,7 +14,7 @@ ADCharacter::ADCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Changing our air control so our character has more control in the air when jumping
-	GetCharacterMovement()->AirControl = 0.8f;
+	GetCharacterMovement()->AirControl = 0.35f;
 }
 
 // Called when the game starts or when spawned
@@ -26,7 +26,7 @@ void ADCharacter::BeginPlay()
 
 void ADCharacter::MoveHorizontal(float Value)
 {
-	if (!bIsChargingJump)
+	if (!bLockMovement)
 	{
 		AddMovementInput(FVector::RightVector * Value);	
 	}
@@ -58,6 +58,7 @@ void ADCharacter::JumpEnd()
 		JumpCharge = 0;
 		bIsChargingJump = false;
 		bIsFalling = true;
+		bLockMovement = false;
 	}
 	else
 	{
@@ -74,6 +75,14 @@ void ADCharacter::Tick(float DeltaTime)
 	if (bIsChargingJump)
 	{
 		JumpCharge = FMath::Clamp<float>((DeltaTime / JumpChargeDuration) + JumpCharge, 0, 1);
+
+		if (MovementLockThresholdOnJumpCharge > 0)
+		{
+			if (JumpCharge >= MovementLockThresholdOnJumpCharge)
+			{
+				bLockMovement = true;
+			}	
+		}
 		
 		DrawDebugString(GetWorld(), FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 400.0f),
 			FString::SanitizeFloat(JumpCharge), NULL, FColor::Yellow, 0.0f, false, 2);

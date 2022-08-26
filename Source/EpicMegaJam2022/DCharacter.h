@@ -37,6 +37,8 @@ protected:
 	// When they hit the ground, the jump will start charging
 	bool bIsBufferingJump;
 
+	bool bLockMovement;
+
 public:
 
 	// The velocity of a jump with an empty jump charge
@@ -50,6 +52,11 @@ public:
 	// The time it takes to fully charge up a jump
 	UPROPERTY(EditDefaultsOnly, Category = "Jumping")
 	float JumpChargeDuration;
+
+	// At what threshold should our character not be able to move when charging a jump.
+	// 0 means there is no threshold and the character's movement won't be locked
+	UPROPERTY(EditDefaultsOnly, Category = "Jumping")
+	float MovementLockThresholdOnJumpCharge;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

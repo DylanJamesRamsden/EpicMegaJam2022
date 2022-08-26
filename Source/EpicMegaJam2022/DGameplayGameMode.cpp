@@ -7,6 +7,22 @@
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 
+void ADGameplayGameMode::AddCharacterOnPortal()
+{
+	NumCharactersOnPortals++;
+
+	if (NumCharactersOnPortals == NumberOfCharactersToSpawn)
+	{
+		// @TODO add level win con here
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("You won!"));
+	}
+}
+
+void ADGameplayGameMode::RemoveCharacterOnPortal()
+{
+	NumCharactersOnPortals--;
+}
+
 void ADGameplayGameMode::BeginPlay()
 {
 	Super::BeginPlay();

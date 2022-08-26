@@ -33,6 +33,8 @@ protected:
 	
 	float bIsFalling;
 
+	// Used as a buffer when the player tries to charge a jump while they are falling
+	// When they hit the ground, the jump will start charging
 	bool bIsBufferingJump;
 
 public:

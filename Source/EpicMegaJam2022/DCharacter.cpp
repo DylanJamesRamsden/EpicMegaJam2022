@@ -3,12 +3,18 @@
 
 #include "DCharacter.h"
 
+#include "DrawDebugHelpers.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 ADCharacter::ADCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Changing our air control so our character has more control in the air when jumping
+	GetCharacterMovement()->AirControl = 0.8f;
 }
 
 // Called when the game starts or when spawned
@@ -20,14 +26,50 @@ void ADCharacter::BeginPlay()
 
 void ADCharacter::MoveHorizontal(float Value)
 {
-	AddMovementInput(FVector::RightVector * Value);
+	if (!bIsChargingJump)
+	{
+		AddMovementInput(FVector::RightVector * Value);	
+	}
+}
+
+void ADCharacter::JumpStart()
+{
+	// We can only start charging a jump if we are not falling
+	if (!bIsFalling)
+	{
+		bIsChargingJump = true;
+	}
+}
+
+void ADCharacter::JumpEnd()
+{
+	// We can only stop charging a jump and jump if we are not falling
+	if (!bIsFalling)
+	{
+		// We get our jump velocity based on a lerp between our min jump and max jump. The alpha is our jump charge
+		const float JumpVelocity = FMath::Lerp(MinJumpVelocity, MaxJumpVelocity, JumpCharge);
+
+		LaunchCharacter(FVector(0.0f, 0.0f, JumpVelocity), false, false);
+
+		JumpCharge = 0;
+		bIsChargingJump = false;
+		bIsFalling = true;
+	}
 }
 
 // Called every frame
 void ADCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
+	//Created this variable and putting in tick just because I know we will need some UI/cosmetic updates
+	if (bIsChargingJump)
+	{
+		JumpCharge = FMath::Clamp<float>((DeltaTime / JumpChargeDuration) + JumpCharge, 0, 1);
+		
+		DrawDebugString(GetWorld(), FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 400.0f),
+			FString::SanitizeFloat(JumpCharge), NULL, FColor::Yellow, 0.0f, false, 2);
+	}
 }
 
 // Called to bind functionality to input
@@ -37,6 +79,15 @@ void ADCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAxis("MoveHorizontal", this, &ADCharacter::MoveHorizontal);
 
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADCharacter::Jump);
+	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADCharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADCharacter::JumpStart);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ADCharacter::JumpEnd);
+}
+
+void ADCharacter::Landed(const FHitResult& Hit)
+{
+	Super::Landed(Hit);
+
+	bIsFalling = false;
 }
 

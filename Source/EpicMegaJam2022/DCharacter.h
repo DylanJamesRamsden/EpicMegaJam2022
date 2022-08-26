@@ -33,6 +33,8 @@ protected:
 	
 	float bIsFalling;
 
+	bool bIsBufferingJump;
+
 public:
 
 	// The velocity of a jump with an empty jump charge

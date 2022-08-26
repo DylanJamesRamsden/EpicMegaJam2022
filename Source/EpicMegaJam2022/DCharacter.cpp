@@ -39,6 +39,10 @@ void ADCharacter::JumpStart()
 	{
 		bIsChargingJump = true;
 	}
+	else
+	{
+		bIsBufferingJump = true;
+	}
 }
 
 void ADCharacter::JumpEnd()
@@ -54,6 +58,10 @@ void ADCharacter::JumpEnd()
 		JumpCharge = 0;
 		bIsChargingJump = false;
 		bIsFalling = true;
+	}
+	else
+	{
+		if (bIsBufferingJump) bIsBufferingJump = false;
 	}
 }
 
@@ -89,5 +97,11 @@ void ADCharacter::Landed(const FHitResult& Hit)
 	Super::Landed(Hit);
 
 	bIsFalling = false;
+
+	if (bIsBufferingJump)
+	{
+		bIsChargingJump = true;
+		bIsBufferingJump = false;
+	}
 }
 

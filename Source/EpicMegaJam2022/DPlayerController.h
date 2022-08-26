@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+class ADCharacter;
+
 UCLASS()
 class EPICMEGAJAM2022_API ADPlayerController : public APlayerController
 {
@@ -18,6 +21,8 @@ protected:
 	UPROPERTY()
 	ACameraActor* LevelCamera;
 
+	UPROPERTY()
+	TArray<ADCharacter*> AvailableCharacters;
 public:
 
 	// ¬ Begin APlayerController interface

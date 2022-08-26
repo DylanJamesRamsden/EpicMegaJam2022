@@ -3,8 +3,10 @@
 
 #include "DPlayerController.h"
 
+#include "EngineUtils.h"
 #include "Camera/CameraActor.h"
 #include "Kismet/GameplayStatics.h"
+#include "DCharacter.h"
 
 void ADPlayerController::BeginPlay()
 {
@@ -18,4 +20,13 @@ void ADPlayerController::BeginPlay()
 		
 		SetViewTarget(LevelCamera);
 	}
+
+	// Just grabbing and storing all of the available ADCharacters in the world
+	// NB! Haven't worked with a non-multiplayer game in a while, but going to assume there are no timing issues
+	// regarding having to wait for the characters to have been spawned before we store them
+	for (TActorIterator<ADCharacter> It(GetWorld()); It; ++It)
+	{
+		AvailableCharacters.Add(*It);
+	}
+
 }

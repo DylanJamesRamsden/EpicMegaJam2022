@@ -3,6 +3,8 @@
 
 #include "DPortal.h"
 
+#include "DCharacter.h"
+
 // Sets default values
 ADPortal::ADPortal()
 {
@@ -21,13 +23,35 @@ ADPortal::ADPortal()
 void ADPortal::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	// Binding our custom OnOverlapBegin and OnOverlapEnd functions to the BoxComponent's overlap events
+	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ADPortal::OnBeginOverlapWithPortal);
+	BoxComponent->OnComponentEndOverlap.AddDynamic(this, &ADPortal::OnEndOverlapWithPortal);
 }
 
 // Called every frame
 void ADPortal::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void ADPortal::OnBeginOverlapWithPortal(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	// @TODO These are firing twice (because of our character capsule and skeletal mesh both overlapping)
+	if (OtherActor->IsA(ADCharacter::StaticClass()))
+	{
+		OnPortalEntered();
+	}
+}
+
+void ADPortal::OnEndOverlapWithPortal(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex)
+{
+	// @TODO These are firing twice (because of our character capsule and skeletal mesh both overlapping)
+	if (OtherActor->IsA(ADCharacter::StaticClass()))
+	{
+		OnPortalExited();
+	}
 }
 

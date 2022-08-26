@@ -75,6 +75,9 @@ public:
 	// The velocity at which our character smashes underneath them
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")
 	float SmashMovementLockOnHitTime;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")
+	TSubclassOf<UCameraShakeBase> SmashCameraShake;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

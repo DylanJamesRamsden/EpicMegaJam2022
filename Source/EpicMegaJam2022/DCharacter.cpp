@@ -140,6 +140,8 @@ void ADCharacter::Landed(const FHitResult& Hit)
 			GetWorldTimerManager().SetTimer(SmashMovementLockTimerHandle, this, &ADCharacter::OnSmashMovementLockComplete,
 				SmashMovementLockOnHitTime, false);
 		}
+
+		UGameplayStatics::PlayWorldCameraShake(this, SmashCameraShake,GetActorLocation(), 0.0f, 5000, 1);
 	}
 }
 

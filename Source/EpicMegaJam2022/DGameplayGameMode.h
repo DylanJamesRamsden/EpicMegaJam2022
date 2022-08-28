@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//#include "DCharacter.h"
+#include "DBigCharacter.h"
+#include "DSmallCharacter.h"
 #include "GameFramework/GameModeBase.h"
 #include "DGameplayGameMode.generated.h"
 
@@ -28,14 +29,14 @@ protected:
 	int32 NumCharactersOnPortals;
 	
 public:
+	
+	// The type of character we want to spawn
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	TSubclassOf<ADBigCharacter> BigCharacterTemplate;
 
 	// The type of character we want to spawn
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-	TSubclassOf<ADCharacter> Characters;
-
-	// The number of characters we want to spawn
-	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-	int NumberOfCharactersToSpawn;
+	TSubclassOf<ADSmallCharacter> SmallCharacterTemplate;
 
 	// Adds a character to our total number of characters successfully on portals
 	void AddCharacterOnPortal();

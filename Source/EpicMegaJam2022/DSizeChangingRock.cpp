@@ -3,7 +3,7 @@
 
 #include "DSizeChangingRock.h"
 
-#include "DCharacter.h"
+#include "DBigCharacter.h"
 #include "EngineUtils.h"
 
 // Sets default values
@@ -48,7 +48,7 @@ void ADSizeChangingRock::OnBeginOverlapWithRock(UPrimitiveComponent* OverlappedC
 {
 	if (!bHasChanged)
 	{
-		if (ADCharacter* Character = Cast<ADCharacter>(OtherActor))
+		if (ADBigCharacter* Character = Cast<ADBigCharacter>(OtherActor))
 		{
 			if (Character->bSmashing)
 			{

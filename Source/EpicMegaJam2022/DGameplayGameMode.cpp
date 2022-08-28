@@ -3,7 +3,6 @@
 
 #include "DGameplayGameMode.h"
 
-#include "DCharacter.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -11,7 +10,7 @@ void ADGameplayGameMode::AddCharacterOnPortal()
 {
 	NumCharactersOnPortals++;
 
-	if (NumCharactersOnPortals == NumberOfCharactersToSpawn)
+	if (NumCharactersOnPortals == 2)
 	{
 		// @TODO add level win con here
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("You won!"));
@@ -34,21 +33,15 @@ void ADGameplayGameMode::SpawnPlayerPawns()
 {
 	if (UWorld* World = GetWorld())
 	{
-		if (Characters)
-		{
-			// Get all of the player starts in the level
-			TArray<AActor*> PlayerStarts;
-			UGameplayStatics::GetAllActorsOfClass(World ,APlayerStart::StaticClass(), PlayerStarts);
+		// Get all of the player starts in the level
+		TArray<AActor*> PlayerStarts;
+		UGameplayStatics::GetAllActorsOfClass(World ,APlayerStart::StaticClass(), PlayerStarts);
 
-			// Spawn the specified number of characters until it reaches the total number of spawn points available in the world
-			for (int i = 0; i < NumberOfCharactersToSpawn; i++)
-			{
-				if (i + 1 <= PlayerStarts.Num())
-				{
-					World->SpawnActor(Characters, &PlayerStarts[i]->GetTransform());	
-				}
-				else break;
-			}
-		}
+		ensure(PlayerStarts.Num() >= 2);
+		ensure(BigCharacterTemplate);
+		ensure(SmallCharacterTemplate);
+		
+		World->SpawnActor(BigCharacterTemplate, &PlayerStarts[0]->GetTransform());
+		World->SpawnActor(SmallCharacterTemplate, &PlayerStarts[1]->GetTransform());
 	}
 }

@@ -12,8 +12,6 @@ void ADPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetLevelCameraAsViewTarget();
-
 	// Just grabbing and storing all of the available ADCharacters in the world
 	// NB! Haven't worked with a non-multiplayer game in a while, but going to assume there are no timing issues
 	// regarding having to wait for the characters to have been spawned before we store them
@@ -21,23 +19,20 @@ void ADPlayerController::BeginPlay()
 	{
 		AvailableCharacters.Add(*It);
 	}
-
-}
-
-void ADPlayerController::SetLevelCameraAsViewTarget()
-{
-	// @TODO Can update this to only grab camera that have a 'Level Camera' tag
-	if (LevelCamera)
+	
+	for (TActorIterator<ACameraActor> It(GetWorld()); It; ++It)
 	{
-		SetViewTarget(LevelCamera);
-	}
-	else
-	{
-		if (AActor* FoundCameraActor = UGameplayStatics::GetActorOfClass(this, ACameraActor::StaticClass()))
+		if (It->ActorHasTag(FName("View1")))
 		{
-			LevelCamera = Cast<ACameraActor>(FoundCameraActor);
-			ensure(LevelCamera);
-		
+			CharacterOneCamera = *It;
+		}
+		else if (It->ActorHasTag(FName("View2")))
+		{
+			CharacterTwoCamera = *It;
+		}
+		else if (It->ActorHasTag(FName("LevelView")))
+		{
+			LevelCamera = *It;
 			SetViewTarget(LevelCamera);
 		}
 	}
@@ -55,8 +50,54 @@ void ADPlayerController::CyclePossessedPawn()
 
 		Possess(AvailableCharacters[PossessedIndex]);
 
-		// Kind of annoying we need to recall this, but just ensures we keep our view target as our LevelCamera
-		SetLevelCameraAsViewTarget();	
+		switch (PossessedIndex)
+		{
+		case 0:
+			BlendToCharacterOneCamera();
+			break;
+		case 1:
+			BlendToCharacterTwoCamera();
+			break;
+		default:
+			BlendToLevelCamera();
+			break;
+		}
+	}
+}
+
+void ADPlayerController::BlendToLevelCamera()
+{
+	if (LevelCamera)
+	{
+		SetViewTargetWithBlend(LevelCamera, 0.25, VTBlend_Cubic, 0, true);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No level camera!"));
+	}
+}
+
+void ADPlayerController::BlendToCharacterOneCamera()
+{
+	if (CharacterOneCamera)
+	{
+		SetViewTargetWithBlend(CharacterOneCamera, 0.25, VTBlend_Cubic, 0, true);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No camera for Character 1!"));
+	}
+}
+
+void ADPlayerController::BlendToCharacterTwoCamera()
+{
+	if (CharacterTwoCamera)
+	{
+		SetViewTargetWithBlend(CharacterTwoCamera, 0.25, VTBlend_Cubic, 0, true);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No camera for Character 2!"));
 	}
 }
 
@@ -67,5 +108,9 @@ void ADPlayerController::SetupInputComponent()
 	if (InputComponent)
 	{
 		InputComponent->BindAction("CyclePawn", IE_Pressed, this, &ADPlayerController::CyclePossessedPawn);
+
+		InputComponent->BindAction("LevelView", IE_Pressed, this, &ADPlayerController::BlendToLevelCamera);
+		InputComponent->BindAction("Pawn1View", IE_Pressed, this, &ADPlayerController::BlendToCharacterOneCamera);
+		InputComponent->BindAction("Pawn2View", IE_Pressed, this, &ADPlayerController::BlendToCharacterTwoCamera);
 	}
 }

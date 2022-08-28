@@ -21,8 +21,11 @@ protected:
 	UPROPERTY()
 	ACameraActor* LevelCamera;
 
-	// Sets our LevelCamera as our current view target
-	void SetLevelCameraAsViewTarget();
+	UPROPERTY()
+	ACameraActor* CharacterOneCamera;
+
+	UPROPERTY()
+	ACameraActor* CharacterTwoCamera;
 
 	// Stores all of the available pawns we can possess
 	UPROPERTY()
@@ -31,8 +34,17 @@ protected:
 	// Keeps track of the index of which pawn we are currently possessing
 	int32 PossessedIndex;
 
+	UPROPERTY()
+	TArray<ACameraActor*> AvailableCameras;
+
 	// Cycles between our available pawns, based on our PossessedIndex
 	void CyclePossessedPawn();
+
+	void BlendToLevelCamera();
+
+	void BlendToCharacterOneCamera();
+
+	void BlendToCharacterTwoCamera();
 public:
 
 	// ¬ Begin APlayerController interface

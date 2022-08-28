@@ -11,6 +11,12 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSizeChangingRock.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSizeChangingRock.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSwingingHook.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSwingingHook.h" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -250,7 +256,8 @@
       <option name="presentableId" value="Default" />
       <updated>1661505533444</updated>
       <workItem from="1661505544210" duration="13816000" />
-      <workItem from="1661529873921" duration="9671000" />
+      <workItem from="1661529873921" duration="16208000" />
+      <workItem from="1661685946978" duration="579000" />
     </task>
     <servers />
   </component>

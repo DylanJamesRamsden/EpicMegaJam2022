@@ -46,10 +46,10 @@ protected:
 	// Unlocks our characters movement comp after the smash lock movement timer is complete
 	void OnSmashMovementLockComplete() const;
 
+public:
+
 	// Indicates whether or not the character is in the middle of a smash sequence
 	bool bSmashing;
-
-public:
 
 	// The velocity of a jump with an empty jump charge
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")

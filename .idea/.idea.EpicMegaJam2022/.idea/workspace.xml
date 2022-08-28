@@ -12,6 +12,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DBigCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DBigCharacter.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSizeChangingRock.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSizeChangingRock.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSmallCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -259,7 +261,7 @@
       <updated>1661505533444</updated>
       <workItem from="1661505544210" duration="13816000" />
       <workItem from="1661529873921" duration="16208000" />
-      <workItem from="1661685946978" duration="17198000" />
+      <workItem from="1661685946978" duration="18002000" />
     </task>
     <servers />
   </component>

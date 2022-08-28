@@ -69,16 +69,6 @@ void ADCharacter::JumpEnd()
 	}
 }
 
-void ADCharacter::Smash()
-{
-	if (!bSmashing && GetCharacterMovement()->IsFalling())
-	{
-		bSmashing = true;
-		
-		LaunchCharacter(FVector(0.0f, 0.0f, SmashVelocity), true, true);
-	}
-}
-
 void ADCharacter::OnSmashMovementLockComplete() const
 {
 	GetCharacterMovement()->SetDefaultMovementMode();
@@ -134,8 +124,7 @@ void ADCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADCharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADCharacter::JumpStart);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ADCharacter::JumpEnd);
-
-	PlayerInputComponent->BindAction("Smash", IE_Pressed, this, &ADCharacter::Smash);
+	
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ADCharacter::Interact);
 }
 
@@ -147,23 +136,6 @@ void ADCharacter::Landed(const FHitResult& Hit)
 	{
 		bIsChargingJump = true;
 		bIsBufferingJump = false;
-	}
-
-	if (bSmashing)
-	{
-		bSmashing = false;
-
-		if (SmashMovementLockOnHitTime > 0)
-		{
-			// Disables our movement on smash impact
-			GetCharacterMovement()->DisableMovement();
-			
-			FTimerHandle SmashMovementLockTimerHandle;
-			GetWorldTimerManager().SetTimer(SmashMovementLockTimerHandle, this, &ADCharacter::OnSmashMovementLockComplete,
-				SmashMovementLockOnHitTime, false);
-		}
-
-		UGameplayStatics::PlayWorldCameraShake(this, SmashCameraShake,GetActorLocation(), 0.0f, 5000, 1);
 	}
 }
 

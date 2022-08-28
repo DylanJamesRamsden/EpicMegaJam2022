@@ -42,8 +42,6 @@ protected:
 
 	// ~ End jump logic
 
-	void Smash();
-
 	// Unlocks our characters movement comp after the smash lock movement timer is complete
 	void OnSmashMovementLockComplete() const;
 	
@@ -56,9 +54,6 @@ protected:
 	virtual void OnEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 public:
-
-	// Indicates whether or not the character is in the middle of a smash sequence
-	bool bSmashing;
 
 	// The velocity of a jump with an empty jump charge
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")
@@ -76,17 +71,6 @@ public:
 	// 0 means there is no threshold and the character's movement won't be locked
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")
 	float MovementLockThresholdOnJumpCharge;
-
-	// The velocity at which our character smashes underneath them
-	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")
-	float SmashVelocity;
-
-	// The velocity at which our character smashes underneath them
-	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")
-	float SmashMovementLockOnHitTime;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")
-	TSubclassOf<UCameraShakeBase> SmashCameraShake;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

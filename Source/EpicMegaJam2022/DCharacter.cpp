@@ -69,11 +69,6 @@ void ADCharacter::JumpEnd()
 	}
 }
 
-void ADCharacter::OnSmashMovementLockComplete() const
-{
-	GetCharacterMovement()->SetDefaultMovementMode();
-}
-
 void ADCharacter::Interact()
 {
 	

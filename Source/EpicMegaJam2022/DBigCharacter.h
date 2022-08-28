@@ -18,6 +18,9 @@ protected:
 
 	void Smash();
 
+	// Unlocks our characters movement comp after the smash lock movement timer is complete
+	void OnSmashMovementLockComplete() const;
+
 public:
 
 	// Indicates whether or not the character is in the middle of a smash sequence

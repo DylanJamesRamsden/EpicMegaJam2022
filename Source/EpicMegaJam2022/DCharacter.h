@@ -41,9 +41,6 @@ protected:
 	bool bLockMovement;
 
 	// ~ End jump logic
-
-	// Unlocks our characters movement comp after the smash lock movement timer is complete
-	void OnSmashMovementLockComplete() const;
 	
 	virtual void Interact();
 

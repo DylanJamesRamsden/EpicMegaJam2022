@@ -16,6 +16,11 @@ void ADBigCharacter::Smash()
 	}
 }
 
+void ADBigCharacter::OnSmashMovementLockComplete() const
+{
+	GetCharacterMovement()->SetDefaultMovementMode();
+}
+
 void ADBigCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);

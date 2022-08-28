@@ -21,7 +21,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	// Moves the character either right or left, depending on the player input
-	void MoveHorizontal(float Value);
+	virtual void MoveHorizontal(float Value);
 
 	// ~ Start jump logic
 
@@ -47,26 +47,13 @@ protected:
 	// Unlocks our characters movement comp after the smash lock movement timer is complete
 	void OnSmashMovementLockComplete() const;
 	
-	void Interact();
+	virtual void Interact();
 
 	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-	void OnEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-	// Determines if the character can swing or not (set based on if the character is in the range of a swinging hook)
-	bool bCanSwing;
-
-	// Determines if the character is currently swinging or not
-	bool bIsSwinging;
-
-	// Currently just storing this as we need a reference to it when the character needs to end their swing
-	UPROPERTY()
-	ADSwingingHook* AvailableSwingingHook;
-
-	// Used as a check after a swing to level out the character's rotation when falling to the ground
-	bool bResetRotationOnSwing;
+	virtual void OnEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 public:
 
@@ -100,12 +87,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")
 	TSubclassOf<UCameraShakeBase> SmashCameraShake;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Movement | Swinging")
-	float RateToResetRotationOnSwing;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Movement | Swinging")
-	float SwingHorizontalVelocity = 100000.0f;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -71,19 +71,19 @@ void ADCharacter::JumpEnd()
 
 void ADCharacter::Interact()
 {
-	
+	// Eventually will add some logic for interacting with the base class
 }
 
 void ADCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	
+	// Eventually may need to add some logic for overlapping in the base class
 }
 
 void ADCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex)
 {
-	
+	// Eventually may need to add some logic for overlapping in the base class
 }
 
 // Called every frame

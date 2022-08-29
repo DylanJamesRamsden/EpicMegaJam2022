@@ -22,6 +22,8 @@ protected:
 
 	virtual void MoveHorizontal(float Value) override;
 
+	void MoveVertical(float Value);
+
 	virtual void Interact() override;
 	
 	virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
@@ -41,6 +43,9 @@ protected:
 	// Used as a check after a swing to level out the character's rotation when falling to the ground
 	bool bResetRotationOnSwing;
 
+	// Determines whether or not the character is climbing on a ladder
+	bool bIsClimbingLadder;
+
 public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Swinging")
@@ -50,5 +55,8 @@ public:
 	float SwingHorizontalVelocity = 100000.0f;
 
 	virtual void Tick(float DeltaSeconds) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 };

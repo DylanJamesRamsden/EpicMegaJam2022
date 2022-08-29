@@ -3,6 +3,7 @@
 
 #include "DSmallCharacter.h"
 
+#include "DLadder.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -18,37 +19,54 @@ void ADSmallCharacter::MoveHorizontal(float Value)
 	{
 		GetCapsuleComponent()->AddForce(GetActorRightVector() * SwingHorizontalVelocity * Value);
 	}
+	else if (bIsClimbingLadder)
+	{
+		AddMovementInput(FVector::RightVector * (Value / 2));
+	}
 	else Super::MoveHorizontal(Value);
+}
+
+void ADSmallCharacter::MoveVertical(float Value)
+{
+	if (bIsClimbingLadder)
+	{
+		AddMovementInput(FVector::UpVector * Value);
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Climbing"));
+	}
 }
 
 void ADSmallCharacter::Interact()
 {
 	Super::Interact();
 
-	if (!bIsSwinging)
+	if (!bIsClimbingLadder)
 	{
-		// If we can swing and we have an available swinging hook, we enable the swing
-		if (bCanSwing && AvailableSwingingHook)
+		if (!bIsSwinging)
 		{
-			AvailableSwingingHook->EnableSwinging(this);
-			bIsSwinging = true;
-		}	
-	}
-	else
-	{
-		// If we interact again while we are swinging, we disable the swing
-		if (AvailableSwingingHook)
-		{
-			// Storing the characters physics linear velocity before we end the swing, so we can apply it as a velocity on
-			// the character with LaunchCharacter as they are no longer simulating physics
-			FVector LinearSwingVelocity = GetCapsuleComponent()->GetPhysicsLinearVelocity();
-			
-			AvailableSwingingHook->DisableSwinging(this);
-			bIsSwinging = false;
-			bResetRotationOnSwing = true;
-
-			LaunchCharacter(FVector(LinearSwingVelocity), true, true);
+			// If we can swing and we have an available swinging hook, we enable the swing
+			if (bCanSwing && AvailableSwingingHook)
+			{
+				AvailableSwingingHook->EnableSwinging(this);
+				bIsSwinging = true;
+			}	
 		}
+		else
+		{
+			// If we interact again while we are swinging, we disable the swing
+			if (AvailableSwingingHook)
+			{
+				// Storing the characters physics linear velocity before we end the swing, so we can apply it as a velocity on
+				// the character with LaunchCharacter as they are no longer simulating physics
+				FVector LinearSwingVelocity = GetCapsuleComponent()->GetPhysicsLinearVelocity();
+			
+				AvailableSwingingHook->DisableSwinging(this);
+				bIsSwinging = false;
+				bResetRotationOnSwing = true;
+
+				LaunchCharacter(FVector(LinearSwingVelocity), true, true);
+			}
+		}	
 	}
 }
 
@@ -57,14 +75,28 @@ void ADSmallCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActo
 {
 	Super::OnBeginOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 
-	if (OtherActor->IsA(ADSwingingHook::StaticClass()))
+	if (!bIsClimbingLadder)
 	{
-		// If the character has overlapped with a swinging hook, we store it and set CanSwing to true
-		if (ADSwingingHook* SwingingHook = Cast<ADSwingingHook>(OtherActor))
+		if (OtherActor->IsA(ADSwingingHook::StaticClass()))
 		{
-			AvailableSwingingHook = SwingingHook;
-			bCanSwing = true;
-		}
+			// If the character has overlapped with a swinging hook, we store it and set CanSwing to true
+			if (ADSwingingHook* SwingingHook = Cast<ADSwingingHook>(OtherActor))
+			{
+				AvailableSwingingHook = SwingingHook;
+				bCanSwing = true;
+			}
+		}	
+	}
+
+	if (OtherActor->IsA(ADLadder::StaticClass()))
+	{
+		bIsClimbingLadder = true;
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("In!"));
+		
+		GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+
+		AttachToActor(OtherActor, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
 	}
 }
 
@@ -73,17 +105,31 @@ void ADSmallCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor*
 {
 	Super::OnEndOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex);
 
-	if (OtherActor->IsA(ADSwingingHook::StaticClass()))
+	if (!bIsClimbingLadder)
 	{
-		if (ADSwingingHook* SwingingHook = Cast<ADSwingingHook>(OtherActor))
+		if (OtherActor->IsA(ADSwingingHook::StaticClass()))
 		{
-			// Only if the character isn't already swinging, we set CanSwing to false when ending an overlap with the swinging hook
-			if (!bIsSwinging && AvailableSwingingHook == SwingingHook)
+			if (ADSwingingHook* SwingingHook = Cast<ADSwingingHook>(OtherActor))
 			{
-				AvailableSwingingHook = nullptr;
-				bCanSwing = false;
+				// Only if the character isn't already swinging, we set CanSwing to false when ending an overlap with the swinging hook
+				if (!bIsSwinging && AvailableSwingingHook == SwingingHook)
+				{
+					AvailableSwingingHook = nullptr;
+					bCanSwing = false;
+				}
 			}
-		}
+		}	
+	}
+
+	if (OtherActor->IsA(ADLadder::StaticClass()))
+	{
+		bIsClimbingLadder = false;
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Out"));
+		
+		GetCharacterMovement()->SetDefaultMovementMode();
+
+		DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld, false));
 	}
 }
 
@@ -105,4 +151,11 @@ void ADSmallCharacter::Tick(float DeltaSeconds)
 			bResetRotationOnSwing = false;
 		}
 	}
+}
+
+void ADSmallCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis("MoveVertical", this, &ADSmallCharacter::MoveVertical);
 }

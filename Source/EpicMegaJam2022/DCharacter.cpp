@@ -16,6 +16,8 @@ ADCharacter::ADCharacter()
 
 	// Changing our air control so our character has more control in the air when jumping
 	GetCharacterMovement()->AirControl = 0.35f;
+	//WE still want our pawn to run physics even if it isn't possessed
+	GetCharacterMovement()->bRunPhysicsWithNoController = true;
 }
 
 // Called when the game starts or when spawned

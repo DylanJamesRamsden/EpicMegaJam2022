@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "DPushable.generated.h"
 
+class ADCharacter;
 class UBoxComponent;
 
 UCLASS()
@@ -27,4 +28,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void BeginPush(ADCharacter* Character);
+
+	void EndPush();
 };

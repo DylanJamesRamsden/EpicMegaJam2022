@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "DCharacter.h"
+#include "DPushable.h"
 #include "DBigCharacter.generated.h"
 
 /**
@@ -16,10 +17,23 @@ class EPICMEGAJAM2022_API ADBigCharacter : public ADCharacter
 
 protected:
 
+	virtual void Interact() override;
+
 	void Smash();
 
 	// Unlocks our characters movement comp after the smash lock movement timer is complete
 	void OnSmashMovementLockComplete() const;
+
+	virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
+	
+	virtual void OnEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
+
+	bool bCanPush;
+
+	UPROPERTY()
+	ADPushable* AvailablePushable;
+
+	bool bIsPushing;
 
 public:
 

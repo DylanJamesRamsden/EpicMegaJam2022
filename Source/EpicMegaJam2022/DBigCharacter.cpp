@@ -6,6 +6,27 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+void ADBigCharacter::Interact()
+{
+	Super::Interact();
+	
+	if (AvailablePushable)
+	{
+		if (!bIsPushing)
+		{
+			AvailablePushable->BeginPush(this);
+			bIsPushing = true;
+			bCanPush = false;
+		}
+		else
+		{
+			AvailablePushable->EndPush();
+			bIsPushing = false;
+			AvailablePushable = nullptr;
+		}
+	}
+}
+
 void ADBigCharacter::Smash()
 {
 	if (!bSmashing && GetCharacterMovement()->IsFalling())
@@ -19,6 +40,39 @@ void ADBigCharacter::Smash()
 void ADBigCharacter::OnSmashMovementLockComplete() const
 {
 	GetCharacterMovement()->SetDefaultMovementMode();
+}
+
+void ADBigCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Super::OnBeginOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+
+	if (!bIsPushing)
+	{
+		if (OtherActor->IsA(ADPushable::StaticClass()))
+		{
+			AvailablePushable = Cast<ADPushable>(OtherActor);
+			bCanPush = true;
+		}	
+	}
+}
+
+void ADBigCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	Super::OnEndOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex);
+
+	if (!bIsPushing)
+	{
+		if (bCanPush)
+		{
+			if (OtherActor == AvailablePushable)
+			{
+				AvailablePushable = nullptr;
+				bCanPush = false;
+			}
+		}
+	}
 }
 
 void ADBigCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

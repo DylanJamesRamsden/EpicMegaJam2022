@@ -3,6 +3,9 @@
 
 #include "DPushable.h"
 
+#include "DBigCharacter.h"
+#include "DCharacter.h"
+
 
 // Sets default values
 ADPushable::ADPushable()
@@ -24,5 +27,21 @@ void ADPushable::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ADPushable::BeginPush(ADCharacter* Character)
+{
+	if (Character)
+	{
+		if (Character->IsA(ADBigCharacter::StaticClass()))
+		{
+			AttachToActor(Character, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
+		}
+	}
+}
+
+void ADPushable::EndPush()
+{
+	DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld, false));
 }
 

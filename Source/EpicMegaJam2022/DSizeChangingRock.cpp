@@ -11,15 +11,6 @@ ADSizeChangingRock::ADSizeChangingRock()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	RootComponent = CreateDefaultSubobject<USceneComponent>("SceneComponent");
-	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComponent");
-	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
-
-	StaticMeshComponent->SetupAttachment(RootComponent);
-	BoxComponent->SetupAttachment(StaticMeshComponent);
-
-	BoxComponent->SetAbsolute(false, false, true);
 }
 
 // Called when the game starts or when spawned
@@ -29,18 +20,6 @@ void ADSizeChangingRock::BeginPlay()
 
 	// Binding our custom OnOverlapBegin and OnOverlapEnd functions to the BoxComponent's overlap events
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ADSizeChangingRock::OnBeginOverlapWithRock);
-
-	//Checks the world for a partner, if found we store it
-	if (PartnerID != 0)
-	{
-		for (TActorIterator<ADSizeChangingRock> It(GetWorld()); It; ++It)
-		{
-			if (It->PartnerID == PartnerID)
-			{
-				Partner = *It;
-			}
-		}
-	}
 }
 
 void ADSizeChangingRock::OnBeginOverlapWithRock(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -56,7 +35,10 @@ void ADSizeChangingRock::OnBeginOverlapWithRock(UPrimitiveComponent* OverlappedC
 
 				if (Partner)
 				{
-					Partner->ChangeSize();
+					if (ADSizeChangingRock* SizeChangingRock = Cast<ADSizeChangingRock>(Partner))
+					{
+						SizeChangingRock->ChangeSize();
+					}
 				}
 
 				bHasChanged = true;

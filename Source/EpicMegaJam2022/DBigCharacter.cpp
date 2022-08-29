@@ -6,6 +6,20 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+void ADBigCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Storing our normal walk speed so we can switch between the normal and penalty effected walk speed when pushing
+	// something
+	NormalWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+}
+
+void ADBigCharacter::JumpStart()
+{
+	if (!bIsPushing) Super::JumpStart();
+}
+
 void ADBigCharacter::Interact()
 {
 	Super::Interact();
@@ -17,12 +31,15 @@ void ADBigCharacter::Interact()
 			AvailablePushable->BeginPush(this);
 			bIsPushing = true;
 			bCanPush = false;
+
+			GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed - AvailablePushable->MovementPenaltyVelocity;
 		}
 		else
 		{
 			AvailablePushable->EndPush();
 			bIsPushing = false;
-			AvailablePushable = nullptr;
+
+			GetCharacterMovement()->MaxWalkSpeed = NormalWalkSpeed;
 		}
 	}
 }

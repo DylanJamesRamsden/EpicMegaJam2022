@@ -54,14 +54,17 @@ void ADCharacter::JumpEnd()
 	// We can only stop charging a jump and jump if we are not falling
 	if (!GetCharacterMovement()->IsFalling())
 	{
-		// We get our jump velocity based on a lerp between our min jump and max jump. The alpha is our jump charge
-		const float JumpVelocity = FMath::Lerp(MinJumpVelocity, MaxJumpVelocity, JumpCharge);
+		if (bIsChargingJump)
+		{
+			// We get our jump velocity based on a lerp between our min jump and max jump. The alpha is our jump charge
+			const float JumpVelocity = FMath::Lerp(MinJumpVelocity, MaxJumpVelocity, JumpCharge);
 
-		LaunchCharacter(FVector(0.0f, 0.0f, JumpVelocity), false, false);
+			LaunchCharacter(FVector(0.0f, 0.0f, JumpVelocity), false, false);
 
-		JumpCharge = 0;
-		bIsChargingJump = false;
-		bLockMovement = false;
+			JumpCharge = 0;
+			bIsChargingJump = false;
+			bLockMovement = false;	
+		}
 	}
 	else
 	{

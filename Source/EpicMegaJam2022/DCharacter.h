@@ -25,9 +25,9 @@ protected:
 
 	// ~ Start jump logic
 
-	void JumpStart();
+	virtual void JumpStart();
 
-	void JumpEnd();
+	virtual void JumpEnd();
 
 	// A value between 0 and 1, determining how much of our jump has been charged (0 being none and 1 being full)
 	float JumpCharge;

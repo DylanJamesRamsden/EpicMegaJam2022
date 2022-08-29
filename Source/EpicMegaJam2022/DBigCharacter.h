@@ -17,6 +17,10 @@ class EPICMEGAJAM2022_API ADBigCharacter : public ADCharacter
 
 protected:
 
+	virtual void BeginPlay() override;
+
+	virtual void JumpStart() override;
+	
 	virtual void Interact() override;
 
 	void Smash();
@@ -34,6 +38,8 @@ protected:
 	ADPushable* AvailablePushable;
 
 	bool bIsPushing;
+
+	float NormalWalkSpeed;
 
 public:
 

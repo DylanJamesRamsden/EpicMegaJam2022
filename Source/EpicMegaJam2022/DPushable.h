@@ -24,6 +24,10 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+
+	// The velocity to negate from the pushing character's movement velocity when being pushed
+	UPROPERTY(EditAnywhere)
+	float MovementPenaltyVelocity;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

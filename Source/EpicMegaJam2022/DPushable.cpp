@@ -27,6 +27,14 @@ void ADPushable::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (bIsBeingPushed)
+	{
+		if (Partner)
+		{
+			FVector Newlocation(Partner->GetActorLocation().X, GetActorLocation().Y, Partner->GetActorLocation().Z);
+			Partner->SetActorLocation(FVector(Newlocation));
+		}
+	}
 }
 
 void ADPushable::BeginPush(ADCharacter* Character)
@@ -36,6 +44,8 @@ void ADPushable::BeginPush(ADCharacter* Character)
 		if (Character->IsA(ADBigCharacter::StaticClass()))
 		{
 			AttachToActor(Character, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
+
+			bIsBeingPushed = true;
 		}
 	}
 }
@@ -43,5 +53,7 @@ void ADPushable::BeginPush(ADCharacter* Character)
 void ADPushable::EndPush()
 {
 	DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld, false));
+
+	bIsBeingPushed = true;
 }
 

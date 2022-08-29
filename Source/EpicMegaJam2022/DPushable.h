@@ -20,6 +20,9 @@ public:
 	ADPushable();
 
 protected:
+
+	bool bIsBeingPushed;
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

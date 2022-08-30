@@ -24,6 +24,8 @@
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSizeChangingRock.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSmallCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSmallCharacter.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSpawningBridge.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSpawningBridge.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSwingingHook.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSwingingHook.h" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -268,7 +270,7 @@
       <workItem from="1661505544210" duration="13816000" />
       <workItem from="1661529873921" duration="16208000" />
       <workItem from="1661685946978" duration="23947000" />
-      <workItem from="1661796898794" duration="9042000" />
+      <workItem from="1661796898794" duration="13496000" />
     </task>
     <servers />
   </component>

@@ -16,6 +16,8 @@
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DBigCharacter.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLadder.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLadder.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLeaver.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLeaver.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DMirroredActor.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DMirroredActor.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DPushable.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -270,7 +272,8 @@
       <workItem from="1661505544210" duration="13816000" />
       <workItem from="1661529873921" duration="16208000" />
       <workItem from="1661685946978" duration="23947000" />
-      <workItem from="1661796898794" duration="13496000" />
+      <workItem from="1661796898794" duration="18762000" />
+      <workItem from="1661887456730" duration="3495000" />
     </task>
     <servers />
   </component>

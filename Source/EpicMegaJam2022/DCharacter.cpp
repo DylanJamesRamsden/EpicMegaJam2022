@@ -3,6 +3,7 @@
 
 #include "DCharacter.h"
 
+#include "DLeaver.h"
 #include "DrawDebugHelpers.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -44,6 +45,7 @@ void ADCharacter::JumpStart()
 	if (!GetCharacterMovement()->IsFalling())
 	{
 		bIsChargingJump = true;
+		GetMesh()->PlayAnimation(ChargeJumpAnimation, false);
 	}
 	else
 	{
@@ -76,19 +78,33 @@ void ADCharacter::JumpEnd()
 
 void ADCharacter::Interact()
 {
-	// Eventually will add some logic for interacting with the base class
+	if (bCanInteractWithInteractable)
+	{
+		InteractableActor->PullLever();
+	}
 }
 
 void ADCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	// Eventually may need to add some logic for overlapping in the base class
+	// @TODO We need an interact interface (thought we didn't need it)
+	if (OtherActor->IsA(ADLeaver::StaticClass()))
+	{
+		InteractableActor = Cast<ADLeaver>(OtherActor);
+		
+		bCanInteractWithInteractable = true;
+	}
 }
 
 void ADCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex)
 {
-	// Eventually may need to add some logic for overlapping in the base class
+	if (OtherActor->IsA(ADLeaver::StaticClass()))
+	{
+		InteractableActor = nullptr;
+		
+		bCanInteractWithInteractable = false;
+	}
 }
 
 // Called every frame

@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "DCharacter.generated.h"
 
+class ADLeaver;
 UCLASS()
 class EPICMEGAJAM2022_API ADCharacter : public ACharacter
 {
@@ -50,6 +51,12 @@ protected:
 	UFUNCTION()
 	virtual void OnEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	bool bCanInteractWithInteractable;
+
+	// @TODO gonna need to change this when we create the interface (change to actor and just check if it implements the interface)
+	UPROPERTY()
+	ADLeaver* InteractableActor;
+
 public:
 
 	// The velocity of a jump with an empty jump charge
@@ -68,6 +75,9 @@ public:
 	// 0 means there is no threshold and the character's movement won't be locked
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")
 	float MovementLockThresholdOnJumpCharge;
+
+	UPROPERTY(EditDefaultsOnly)
+	UAnimationAsset* ChargeJumpAnimation;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

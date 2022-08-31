@@ -31,8 +31,6 @@ void ADSmallCharacter::MoveVertical(float Value)
 	if (bIsClimbingLadder)
 	{
 		AddMovementInput(FVector::UpVector * Value);
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Climbing"));
 	}
 }
 

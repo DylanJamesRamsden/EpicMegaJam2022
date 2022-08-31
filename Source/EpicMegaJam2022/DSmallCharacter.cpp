@@ -63,6 +63,8 @@ void ADSmallCharacter::Interact()
 				bResetRotationOnSwing = true;
 
 				LaunchCharacter(FVector(LinearSwingVelocity), true, true);
+
+				AvailableSwingingHook = nullptr;
 			}
 		}	
 	}

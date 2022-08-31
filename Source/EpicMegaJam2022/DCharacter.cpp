@@ -3,7 +3,10 @@
 
 #include "DCharacter.h"
 
+#include "DDoor.h"
+#include "DKey.h"
 #include "DLeaver.h"
+#include "DPlayerState.h"
 #include "DrawDebugHelpers.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -104,6 +107,21 @@ void ADCharacter::Interact()
 {
 	if (bCanInteractWithInteractable)
 	{
+		if (InteractableActor->IsA(ADKey::StaticClass()))
+		{
+			if (ADPlayerState* PS = GetPlayerState<ADPlayerState>())
+			{
+				PS->PickupKey();
+			}
+		}
+		else if (InteractableActor->IsA(ADDoor::StaticClass()))
+		{
+			if (ADPlayerState* PS = GetPlayerState<ADPlayerState>())
+			{
+				if (!PS->HasKey()) return;
+			}
+		}
+
 		InteractableActor->StartMirroredAction();
 	}
 }
@@ -112,9 +130,11 @@ void ADCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
                                  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	// @TODO We need an interact interface (thought we didn't need it)
-	if (OtherActor->IsA(ADLeaver::StaticClass()))
+	if (OtherActor->IsA(ADLeaver::StaticClass()) ||
+		OtherActor->IsA(ADDoor::StaticClass()) ||
+		OtherActor->IsA(ADKey::StaticClass()))
 	{
-		InteractableActor = Cast<ADLeaver>(OtherActor);
+		InteractableActor = Cast<ADMirroredActor>(OtherActor);
 		
 		bCanInteractWithInteractable = true;
 	}
@@ -123,7 +143,7 @@ void ADCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
 void ADCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex)
 {
-	if (OtherActor->IsA(ADLeaver::StaticClass()))
+	if (OtherActor == InteractableActor)
 	{
 		InteractableActor = nullptr;
 		

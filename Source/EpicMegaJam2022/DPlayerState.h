@@ -4,14 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
-#include "ADPlayerState.generated.h"
+#include "DPlayerState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class EPICMEGAJAM2022_API AADPlayerState : public APlayerState
+class EPICMEGAJAM2022_API ADPlayerState : public APlayerState
 {
 	GENERATED_BODY()
+
+protected:
+
+	bool bHasKey;
 	
+public:
+
+	void PickupKey();
+
+	bool HasKey() const;
 };

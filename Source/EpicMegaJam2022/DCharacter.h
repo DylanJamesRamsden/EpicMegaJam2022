@@ -57,7 +57,7 @@ protected:
 
 	// @TODO gonna need to change this when we create the interface (change to actor and just check if it implements the interface)
 	UPROPERTY()
-	ADLeaver* InteractableActor;
+	ADMirroredActor* InteractableActor;
 
 public:
 

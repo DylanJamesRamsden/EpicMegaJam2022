@@ -32,9 +32,12 @@ void ADMirroredActor::BeginPlay()
 	{
 		for (TActorIterator<ADMirroredActor> It(GetWorld()); It; ++It)
 		{
-			if (It->PartnerID == PartnerID)
+			if (*It != this)
 			{
-				Partner = *It;
+				if (It->PartnerID == PartnerID)
+				{
+					Partner = *It;
+				}	
 			}
 		}
 	}

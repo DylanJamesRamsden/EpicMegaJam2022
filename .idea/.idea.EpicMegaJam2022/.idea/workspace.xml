@@ -18,12 +18,18 @@
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DActivator.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DBigCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DBigCharacter.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DDoor.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DDoor.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DKey.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DKey.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLadder.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLadder.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLeaver.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLeaver.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DMirroredActor.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DMirroredActor.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DPlayerState.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DPlayerState.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DPushable.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DPushable.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DSizeChangingRock.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -279,7 +285,7 @@
       <workItem from="1661796898794" duration="18762000" />
       <workItem from="1661887456730" duration="9148000" />
       <workItem from="1661949275960" duration="263000" />
-      <workItem from="1661954200473" duration="10536000" />
+      <workItem from="1661954200473" duration="15933000" />
     </task>
     <servers />
   </component>

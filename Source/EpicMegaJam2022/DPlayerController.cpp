@@ -4,8 +4,9 @@
 #include "DPlayerController.h"
 
 #include "EngineUtils.h"
-#include "Camera/CameraActor.h"
 #include "DCharacter.h"
+#include "Camera/CameraActor.h"
+#include "Kismet/GameplayStatics.h"
 
 void ADPlayerController::BeginPlay()
 {
@@ -18,22 +19,12 @@ void ADPlayerController::BeginPlay()
 	{
 		AvailableCharacters.Add(*It);
 	}
-	
-	for (TActorIterator<ACameraActor> It(GetWorld()); It; ++It)
+
+	if (AActor* FoundCamera = UGameplayStatics::GetActorOfClass(this, ACameraActor::StaticClass()))
 	{
-		if (It->ActorHasTag(FName("View1")))
-		{
-			CharacterOneCamera = *It;
-		}
-		else if (It->ActorHasTag(FName("View2")))
-		{
-			CharacterTwoCamera = *It;
-		}
-		else if (It->ActorHasTag(FName("LevelView")))
-		{
-			LevelCamera = *It;
-			SetViewTarget(LevelCamera);
-		}
+		LevelCamera = Cast<ACameraActor>(FoundCamera);
+		
+		SetViewTarget(LevelCamera);
 	}
 }
 
@@ -49,55 +40,24 @@ void ADPlayerController::CyclePossessedPawn()
 
 		Possess(AvailableCharacters[PossessedIndex]);
 
-		switch (PossessedIndex)
-		{
-		case 0:
-			BlendToCharacterOneCamera();
-			break;
-		case 1:
-			BlendToCharacterTwoCamera();
-			break;
-		default:
-			BlendToLevelCamera();
-			break;
-		}
+		//SetViewTargetWithBlend(AvailableCharacters[PossessedIndex], 3.0f, VTBlend_Linear, 1, true);
+		SetViewTargetWithBlend(AvailableCharacters[PossessedIndex], 1.0f, VTBlend_Linear, 0, true);
 	}
 }
 
 void ADPlayerController::BlendToLevelCamera()
 {
-	if (LevelCamera)
-	{
-		SetViewTargetWithBlend(LevelCamera, 0.25, VTBlend_Cubic, 0, true);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No level camera!"));
-	}
+	
 }
 
 void ADPlayerController::BlendToCharacterOneCamera()
 {
-	if (CharacterOneCamera)
-	{
-		SetViewTargetWithBlend(CharacterOneCamera, 0.25, VTBlend_Cubic, 0, true);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No camera for Character 1!"));
-	}
+	
 }
 
 void ADPlayerController::BlendToCharacterTwoCamera()
 {
-	if (CharacterTwoCamera)
-	{
-		SetViewTargetWithBlend(CharacterTwoCamera, 0.25, VTBlend_Cubic, 0, true);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No camera for Character 2!"));
-	}
+	
 }
 
 void ADPlayerController::SetupInputComponent()

@@ -15,6 +15,19 @@ ADCharacter::ADCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
+
+	SpringArmComponent->SetupAttachment(RootComponent);
+	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	SpringArmComponent->bEnableCameraLag = true;
+
+	SpringArmComponent->TargetArmLength = 2000;
+	SpringArmComponent->SetRelativeRotation(FRotator(-30.0f, 0.0f, 0.0f));
+	SpringArmComponent->SetUsingAbsoluteRotation(true);
+	SpringArmComponent->bDoCollisionTest = false;
+
 	// Changing our air control so our character has more control in the air when jumping
 	GetCharacterMovement()->AirControl = 0.35f;
 	//WE still want our pawn to run physics even if it isn't possessed

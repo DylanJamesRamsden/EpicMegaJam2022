@@ -107,6 +107,8 @@ void ADBigCharacter::Landed(const FHitResult& Hit)
 
 	if (bSmashing)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
+		
 		bSmashing = false;
 
 		if (SmashMovementLockOnHitTime > 0)

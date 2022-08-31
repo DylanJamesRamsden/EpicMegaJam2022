@@ -21,12 +21,6 @@ protected:
 	UPROPERTY()
 	ACameraActor* LevelCamera;
 
-	UPROPERTY()
-	ACameraActor* CharacterOneCamera;
-
-	UPROPERTY()
-	ACameraActor* CharacterTwoCamera;
-
 	// Stores all of the available pawns we can possess
 	UPROPERTY()
 	TArray<ADCharacter*> AvailableCharacters;

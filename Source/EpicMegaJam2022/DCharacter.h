@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "DSwingingHook.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "DCharacter.generated.h"
 
 class ADLeaver;
@@ -58,6 +60,12 @@ protected:
 	ADLeaver* InteractableActor;
 
 public:
+
+	UPROPERTY(EditDefaultsOnly)
+	USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	UCameraComponent* CameraComponent;
 
 	// The velocity of a jump with an empty jump charge
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Jumping")

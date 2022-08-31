@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DMirroredActor.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
@@ -12,7 +13,7 @@
 class ADCharacter;
 
 UCLASS()
-class EPICMEGAJAM2022_API ADSwingingHook : public AActor
+class EPICMEGAJAM2022_API ADSwingingHook : public ADMirroredActor
 {
 	GENERATED_BODY()
 	
@@ -29,9 +30,6 @@ protected:
 	AActor* SwingingActor;
 	
 public:
-
-	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* StaticMeshComponent;
 
 	UPROPERTY(EditDefaultsOnly)
 	USphereComponent* SphereComponent;

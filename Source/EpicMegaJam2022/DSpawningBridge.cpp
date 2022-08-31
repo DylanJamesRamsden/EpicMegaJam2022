@@ -53,6 +53,13 @@ void ADSpawningBridge::ShowPlank()
 	}
 }
 
+void ADSpawningBridge::Action()
+{
+	Super::Action();
+
+	ShowPlank();
+}
+
 // Called every frame
 void ADSpawningBridge::Tick(float DeltaTime)
 {

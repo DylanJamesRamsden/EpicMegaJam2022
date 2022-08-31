@@ -91,7 +91,7 @@ void ADCharacter::Interact()
 {
 	if (bCanInteractWithInteractable)
 	{
-		InteractableActor->PullLever();
+		InteractableActor->StartMirroredAction();
 	}
 }
 

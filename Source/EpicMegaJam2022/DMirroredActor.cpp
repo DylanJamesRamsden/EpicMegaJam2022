@@ -40,6 +40,21 @@ void ADMirroredActor::BeginPlay()
 	}
 }
 
+void ADMirroredActor::StartMirroredAction()
+{
+	Action();
+	
+	if (Partner)
+	{
+		Partner->Action();
+	}
+}
+
+void ADMirroredActor::Action()
+{
+	
+}
+
 // Called every frame
 void ADMirroredActor::Tick(float DeltaTime)
 {

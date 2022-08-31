@@ -44,6 +44,5 @@ public:
 	UPROPERTY(EditAnywhere)
 	float MaxMinZScale;
 
-	// Changes the size of our rock and the size of the partner if the rock has one
-	void ChangeSize();
+	virtual void Action() override;
 };

@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DActivatable.h"
 #include "DMirroredActor.h"
 #include "Engine/StaticMeshActor.h"
 #include "DSpawningBridge.generated.h"
 
 UCLASS()
-class EPICMEGAJAM2022_API ADSpawningBridge : public AActor
+class EPICMEGAJAM2022_API ADSpawningBridge : public ADActivatable
 {
 	GENERATED_BODY()
 	
@@ -26,10 +27,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
+	void ShowPlank();
 
-	UPROPERTY(EditAnywhere)
-	int LeaverIndex;
+public:
 
 	UPROPERTY(EditAnywhere)
 	TArray<UStaticMesh*> PlankMeshes;
@@ -46,6 +46,6 @@ public:
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
-	void ShowPlank();
+
+	virtual void Action() override;
 };

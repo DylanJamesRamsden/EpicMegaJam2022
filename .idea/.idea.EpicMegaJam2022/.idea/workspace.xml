@@ -12,6 +12,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DActivatable.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DActivatable.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DActivator.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DActivator.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DBigCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DBigCharacter.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/EpicMegaJam2022/DLadder.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -273,7 +277,9 @@
       <workItem from="1661529873921" duration="16208000" />
       <workItem from="1661685946978" duration="23947000" />
       <workItem from="1661796898794" duration="18762000" />
-      <workItem from="1661887456730" duration="8532000" />
+      <workItem from="1661887456730" duration="9148000" />
+      <workItem from="1661949275960" duration="263000" />
+      <workItem from="1661954200473" duration="3788000" />
     </task>
     <servers />
   </component>

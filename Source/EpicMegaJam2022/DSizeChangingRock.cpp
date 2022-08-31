@@ -31,20 +31,7 @@ void ADSizeChangingRock::OnBeginOverlapWithRock(UPrimitiveComponent* OverlappedC
 		{
 			if (Character->bSmashing)
 			{
-				ChangeSize();
-
-				if (Partner)
-				{
-					if (ADSizeChangingRock* SizeChangingRock = Cast<ADSizeChangingRock>(Partner))
-					{
-						SizeChangingRock->ChangeSize();
-					}
-				}
-
-				bHasChanged = true;
-
-				FTimerHandle ChangedTimerHandle;
-				GetWorldTimerManager().SetTimer(ChangedTimerHandle, this, &ADSizeChangingRock::ResetHasChanged, 0.2);
+				StartMirroredAction();
 			}
 		}	
 	}
@@ -62,8 +49,10 @@ void ADSizeChangingRock::Tick(float DeltaTime)
 
 }
 
-void ADSizeChangingRock::ChangeSize()
+void ADSizeChangingRock::Action()
 {
+	Super::Action();
+
 	FVector CurrentScale = StaticMeshComponent->GetComponentScale();
 
 	if (bShouldShrink)

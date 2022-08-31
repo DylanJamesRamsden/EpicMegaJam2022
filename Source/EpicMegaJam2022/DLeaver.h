@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DMirroredActor.h"
+#include "DActivator.h"
 #include "DSpawningBridge.h"
 #include "DLeaver.generated.h"
 
 UCLASS()
-class EPICMEGAJAM2022_API ADLeaver : public ADMirroredActor
+class EPICMEGAJAM2022_API ADLeaver : public ADActivator
 {
 	GENERATED_BODY()
 	
@@ -23,17 +23,16 @@ protected:
 
 public:
 
-	UPROPERTY(EditAnywhere)
-	int BridgeIndex;
-
 	UPROPERTY()
 	ADSpawningBridge* SpawningBridgePartner;
+
+	UPROPERTY(EditAnywhere)
+	int SpawningBridgePartnerID;
 
 	bool bIsActivated;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void PullLever();
-
+	virtual void Action() override;
 };

@@ -32,6 +32,11 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UBoxComponent* BoxComponent;
 
+	// Starts the action between this actor and it's mirrored partner
+	void StartMirroredAction();
+	
+	virtual void Action();
+
 	// These rocks can be partnered up with another rock. When the rock's size changes, the opposite will happen to it's partner
 	// e.g. If the rock shrinks, it's partner will grow
 	// Used as an ID to find it's partner when the game starts

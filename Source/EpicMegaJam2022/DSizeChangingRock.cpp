@@ -53,15 +53,23 @@ void ADSizeChangingRock::Action()
 {
 	Super::Action();
 
-	FVector CurrentScale = StaticMeshComponent->GetComponentScale();
+	if (!bHasChanged)
+	{
+		FVector CurrentScale = StaticMeshComponent->GetComponentScale();
+		
+		if (bShouldShrink)
+		{
+			StaticMeshComponent->SetWorldScale3D(FVector(CurrentScale.X, CurrentScale.Y, FMath::Clamp((CurrentScale.Z - ZScaleChangeRate), MaxMinZScale, CurrentScale.Z)));
+		}
+		else
+		{
+			StaticMeshComponent->SetWorldScale3D(FVector(CurrentScale.X, CurrentScale.Y, FMath::Clamp((CurrentScale.Z + ZScaleChangeRate), CurrentScale.Z, MaxMinZScale)));
+		}
 
-	if (bShouldShrink)
-	{
-		StaticMeshComponent->SetWorldScale3D(FVector(CurrentScale.X, CurrentScale.Y, FMath::Clamp((CurrentScale.Z - ZScaleChangeRate), MaxMinZScale, CurrentScale.Z)));
-	}
-	else
-	{
-		StaticMeshComponent->SetWorldScale3D(FVector(CurrentScale.X, CurrentScale.Y, FMath::Clamp((CurrentScale.Z + ZScaleChangeRate), CurrentScale.Z, MaxMinZScale)));
+		bHasChanged = true;
+
+		FTimerHandle ChangedTimerHandle;
+		GetWorldTimerManager().SetTimer(ChangedTimerHandle, this, &ADSizeChangingRock::ResetHasChanged, 0.2);
 	}
 }
 

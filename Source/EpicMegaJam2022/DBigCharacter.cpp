@@ -54,9 +54,11 @@ void ADBigCharacter::Smash()
 	}
 }
 
-void ADBigCharacter::OnSmashMovementLockComplete() const
+void ADBigCharacter::OnSmashMovementLockComplete()
 {
 	GetCharacterMovement()->SetDefaultMovementMode();
+
+	bInSmashSequence = false;
 }
 
 void ADBigCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -115,6 +117,8 @@ void ADBigCharacter::Landed(const FHitResult& Hit)
 			FTimerHandle SmashMovementLockTimerHandle;
 			GetWorldTimerManager().SetTimer(SmashMovementLockTimerHandle, this, &ADBigCharacter::OnSmashMovementLockComplete,
 				SmashMovementLockOnHitTime, false);
+
+			bInSmashSequence = true;
 		}
 
 		UGameplayStatics::PlayWorldCameraShake(this, SmashCameraShake,GetActorLocation(), 0.0f, 5000, 1);

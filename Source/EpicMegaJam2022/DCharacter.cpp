@@ -45,7 +45,13 @@ void ADCharacter::JumpStart()
 	if (!GetCharacterMovement()->IsFalling())
 	{
 		bIsChargingJump = true;
-		GetMesh()->PlayAnimation(ChargeJumpAnimation, false);
+
+		if (ChargeJumpAnimation)
+		{
+			float AnimLength = PlayAnimMontage(ChargeJumpAnimation);
+		}
+		
+
 	}
 	else
 	{
@@ -67,7 +73,12 @@ void ADCharacter::JumpEnd()
 
 			JumpCharge = 0;
 			bIsChargingJump = false;
-			bLockMovement = false;	
+			bLockMovement = false;
+
+			if (ChargeJumpAnimation)
+			{
+				StopAnimMontage();
+			}
 		}
 	}
 	else
@@ -152,6 +163,11 @@ void ADCharacter::Landed(const FHitResult& Hit)
 	{
 		bIsChargingJump = true;
 		bIsBufferingJump = false;
+
+		if (ChargeJumpAnimation)
+		{
+			float AnimLength = PlayAnimMontage(ChargeJumpAnimation);
+		}
 	}
 }
 

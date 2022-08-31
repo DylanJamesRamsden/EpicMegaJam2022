@@ -77,7 +77,9 @@ public:
 	float MovementLockThresholdOnJumpCharge;
 
 	UPROPERTY(EditDefaultsOnly)
-	UAnimationAsset* ChargeJumpAnimation;
+	UAnimMontage* ChargeJumpAnimation;
+
+	FTimerHandle ChargeAnimTimerHandle;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

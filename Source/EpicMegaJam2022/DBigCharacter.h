@@ -26,7 +26,7 @@ protected:
 	void Smash();
 
 	// Unlocks our characters movement comp after the smash lock movement timer is complete
-	void OnSmashMovementLockComplete() const;
+	void OnSmashMovementLockComplete();
 
 	virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 	
@@ -44,7 +44,11 @@ protected:
 public:
 
 	// Indicates whether or not the character is in the middle of a smash sequence
+	UPROPERTY(BlueprintReadOnly)
 	bool bSmashing;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bInSmashSequence;
 
 	// The velocity at which our character smashes underneath them
 	UPROPERTY(EditDefaultsOnly, Category = "Movement | Abilities")

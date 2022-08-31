@@ -3,9 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ArrowComponent.h"
+#include "DMirroredActor.h"
 #include "Engine/StaticMeshActor.h"
-#include "GameFramework/Actor.h"
 #include "DSpawningBridge.generated.h"
 
 UCLASS()
@@ -27,9 +26,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void ShowPlank();
-
 public:
+
+	UPROPERTY(EditAnywhere)
+	int LeaverIndex;
 
 	UPROPERTY(EditAnywhere)
 	TArray<UStaticMesh*> PlankMeshes;
@@ -46,5 +46,6 @@ public:
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
+	void ShowPlank();
 };

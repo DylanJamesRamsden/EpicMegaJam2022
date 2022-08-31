@@ -10,8 +10,6 @@ ADSpawningBridge::ADSpawningBridge()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	RootComponent = CreateDefaultSubobject<USceneComponent>("SceneComponent");
 }
 
 // Called when the game starts or when spawned
@@ -31,20 +29,20 @@ void ADSpawningBridge::BeginPlay()
 			int MeshToUse = FMath::RandRange(0, PlankMeshes.Num() - 1);
 			SpawnedPlank->GetStaticMeshComponent()->SetStaticMesh(PlankMeshes[MeshToUse]);
 			SpawnedPlank->SetActorHiddenInGame(true);
+			SpawnedPlank->SetActorEnableCollision(false);
 
 			SpawnedPlanks.Add(SpawnedPlank);
 
 			SpawnLocation += GetActorRightVector() * SpaceBetweenPlanks;
 		}
 	}
-
-	FTimerHandle ShowPlankTimerHandle;
-	GetWorldTimerManager().SetTimer(ShowPlankTimerHandle, this, &ADSpawningBridge::ShowPlank, 5.0f);
 }
 
 void ADSpawningBridge::ShowPlank()
 {
 	SpawnedPlanks[ShownPlankIndex]->SetActorHiddenInGame(false);
+
+	SpawnedPlanks[ShownPlankIndex]->SetActorEnableCollision(true);
 	
 	ShownPlankIndex++;
 	

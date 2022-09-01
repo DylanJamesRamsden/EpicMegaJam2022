@@ -7,6 +7,7 @@
 #include "DKey.h"
 #include "DLeaver.h"
 #include "DPlayerState.h"
+#include "DPressurePlate.h"
 #include "DrawDebugHelpers.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -138,6 +139,11 @@ void ADCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		
 		bCanInteractWithInteractable = true;
 	}
+	else if (OtherActor->IsA(ADPressurePlate::StaticClass()))
+	{
+		ADActivator* PressurePlate = Cast<ADActivator>(OtherActor);
+		PressurePlate->StartMirroredAction();
+	}
 }
 
 void ADCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -148,6 +154,11 @@ void ADCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* Othe
 		InteractableActor = nullptr;
 		
 		bCanInteractWithInteractable = false;
+	}
+	else if (OtherActor->IsA(ADPressurePlate::StaticClass()))
+	{
+		ADActivator* PressurePlate = Cast<ADActivator>(OtherActor);
+		PressurePlate->StartMirroredAction();
 	}
 }
 

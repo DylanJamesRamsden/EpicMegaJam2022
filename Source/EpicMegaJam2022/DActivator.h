@@ -22,6 +22,8 @@ protected:
 	UPROPERTY()
 	ADActivatable* Activatable;
 
+	bool bIsActivated;
+
 public:
 
 	virtual void Action() override;

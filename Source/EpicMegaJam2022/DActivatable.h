@@ -15,7 +15,8 @@ class EPICMEGAJAM2022_API ADActivatable : public ADMirroredActor
 	GENERATED_BODY()
 
 protected:
-	
+
+	bool bIsActivated;
 
 public:
 

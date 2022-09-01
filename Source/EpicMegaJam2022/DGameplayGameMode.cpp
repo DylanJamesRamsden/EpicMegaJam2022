@@ -40,8 +40,20 @@ void ADGameplayGameMode::SpawnPlayerPawns()
 		ensure(PlayerStarts.Num() >= 2);
 		ensure(BigCharacterTemplate);
 		ensure(SmallCharacterTemplate);
-		
-		World->SpawnActor(BigCharacterTemplate, &PlayerStarts[0]->GetTransform());
-		World->SpawnActor(SmallCharacterTemplate, &PlayerStarts[1]->GetTransform());
+
+		for (int i = 0; i < 2; i++)
+		{
+			if (APlayerStart* PlayerStart = Cast<APlayerStart>(PlayerStarts[i]))
+			{
+				if (PlayerStart->PlayerStartTag == "Small")
+				{
+					World->SpawnActor(SmallCharacterTemplate, &PlayerStarts[i]->GetTransform());
+				}
+				else
+				{
+					World->SpawnActor(BigCharacterTemplate, &PlayerStarts[i]->GetTransform());
+				}
+			}
+		}
 	}
 }

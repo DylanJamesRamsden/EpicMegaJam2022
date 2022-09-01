@@ -39,6 +39,8 @@ void ADBigCharacter::Interact()
 			AvailablePushable->EndPush();
 			bIsPushing = false;
 
+			AvailablePushable = nullptr;
+
 			GetCharacterMovement()->MaxWalkSpeed = NormalWalkSpeed;
 		}
 	}

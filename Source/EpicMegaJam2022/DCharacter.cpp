@@ -46,13 +46,37 @@ void ADCharacter::BeginPlay()
 	// Binding our custom OnOverlapBegin and OnOverlapEnd functions to the BoxComponent's overlap events
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ADCharacter::OnBeginOverlap);
 	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &ADCharacter::OnEndOverlap);
+
+	StartLocation = GetActorLocation();
 }
 
 void ADCharacter::MoveHorizontal(float Value)
 {
 	if (!bLockMovement)
 	{
-		AddMovementInput(FVector::RightVector * Value);	
+		AddMovementInput(FVector::RightVector * Value);
+
+		/*if (Value != 0)
+		{
+			if (Value > 0)
+			{
+				if (!bIsWalkingRight)
+				{
+					bIsWalkingRight = true;
+
+					GetMesh()->SetWorldRotation(FRotator(0.0f, 0.0f, 0.0f));
+				}
+			}
+			else
+			{
+				if (bIsWalkingRight)
+				{
+					bIsWalkingRight = false;
+
+					GetMesh()->SetWorldRotation(FRotator(0.0f, 180.0f, 0.0f));
+				}
+			}
+		}*/
 	}	
 }
 
@@ -212,6 +236,18 @@ void ADCharacter::Landed(const FHitResult& Hit)
 		{
 			float AnimLength = PlayAnimMontage(ChargeJumpAnimation);
 		}
+	}
+}
+
+void ADCharacter::FellOutOfWorld(const UDamageType& dmgType)
+{
+	// We just overwrite fell out of world and set our character's location to the location they started in
+	SetActorLocation(StartLocation);
+
+	if (bIsChargingJump)
+	{
+		bIsChargingJump = false;
+		bLockMovement = false;
 	}
 }
 

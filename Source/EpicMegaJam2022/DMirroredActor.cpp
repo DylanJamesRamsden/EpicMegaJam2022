@@ -5,6 +5,7 @@
 
 #include "EngineUtils.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ADMirroredActor::ADMirroredActor()
@@ -47,6 +48,11 @@ void ADMirroredActor::StartMirroredAction()
 {
 	Action();
 	
+	if (SoundOnAction)
+	{
+		UGameplayStatics::PlaySound2D(this, SoundOnAction);	
+	}
+	
 	if (Partner)
 	{
 		Partner->Action();
@@ -55,7 +61,7 @@ void ADMirroredActor::StartMirroredAction()
 
 void ADMirroredActor::Action()
 {
-	
+	OnAction();
 }
 
 // Called every frame

@@ -52,6 +52,11 @@ void ADPortal::OnBeginOverlapWithPortal(UPrimitiveComponent* OverlappedComp, AAc
 		if (GameplayGameMode) GameplayGameMode->AddCharacterOnPortal();
 		
 		OnPortalEntered();
+
+		if (SoundOnEntered)
+		{
+			UGameplayStatics::PlaySound2D(this, SoundOnEntered);	
+		}
 	}
 }
 

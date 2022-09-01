@@ -12,6 +12,10 @@
  * 
  */
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerReachedPortal);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerLeftPortal);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLevelComplete);
+
 class ADCharacter;
 
 UCLASS()
@@ -38,6 +42,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	TSubclassOf<ADSmallCharacter> SmallCharacterTemplate;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnLevelComplete OnLevelComplete;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnPlayerReachedPortal OnPlayerReachedPortal;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnPlayerReachedPortal OnPlayerLeftPortal;
+
 	// Adds a character to our total number of characters successfully on portals
 	void AddCharacterOnPortal();
 
@@ -47,4 +60,7 @@ public:
 	// ¬ Begin APlayerController interface
 	virtual void BeginPlay() override;
 	// ¬ End APlayerController interface
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	int GetNumCharactersOnPortals();
 };

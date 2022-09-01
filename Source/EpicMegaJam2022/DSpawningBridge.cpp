@@ -4,6 +4,7 @@
 #include "DSpawningBridge.h"
 
 #include "Engine/StaticMeshActor.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ADSpawningBridge::ADSpawningBridge()
@@ -40,6 +41,11 @@ void ADSpawningBridge::BeginPlay()
 
 void ADSpawningBridge::ShowPlank()
 {
+	if (SoundOnAction)
+	{
+		UGameplayStatics::PlaySound2D(this, SoundOnAction);	
+	}
+	
 	SpawnedPlanks[ShownPlankIndex]->SetActorHiddenInGame(false);
 
 	SpawnedPlanks[ShownPlankIndex]->SetActorEnableCollision(true);

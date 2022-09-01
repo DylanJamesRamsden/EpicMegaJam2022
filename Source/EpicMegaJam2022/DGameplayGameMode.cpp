@@ -10,16 +10,19 @@ void ADGameplayGameMode::AddCharacterOnPortal()
 {
 	NumCharactersOnPortals++;
 
+	OnPlayerReachedPortal.Broadcast();
+
 	if (NumCharactersOnPortals == 2)
 	{
-		// @TODO add level win con here
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("You won!"));
+		OnLevelComplete.Broadcast();
 	}
 }
 
 void ADGameplayGameMode::RemoveCharacterOnPortal()
 {
 	NumCharactersOnPortals--;
+
+	OnPlayerLeftPortal.Broadcast();
 }
 
 void ADGameplayGameMode::BeginPlay()
@@ -27,6 +30,11 @@ void ADGameplayGameMode::BeginPlay()
 	Super::BeginPlay();
 
 	SpawnPlayerPawns();
+}
+
+int ADGameplayGameMode::GetNumCharactersOnPortals()
+{
+	return NumCharactersOnPortals;
 }
 
 void ADGameplayGameMode::SpawnPlayerPawns()
@@ -47,7 +55,7 @@ void ADGameplayGameMode::SpawnPlayerPawns()
 			{
 				if (PlayerStart->PlayerStartTag == "Small")
 				{
-					World->SpawnActor(SmallCharacterTemplate, &PlayerStarts[i]->GetTransform());
+					 World->SpawnActor(SmallCharacterTemplate, &PlayerStarts[i]->GetTransform());
 				}
 				else
 				{

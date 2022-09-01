@@ -47,6 +47,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	UBoxComponent* BoxComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* SoundOnEntered;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

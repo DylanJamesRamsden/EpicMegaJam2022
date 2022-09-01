@@ -26,6 +26,8 @@ protected:
 	// Moves the character either right or left, depending on the player input
 	virtual void MoveHorizontal(float Value);
 
+	bool bIsWalkingRight = true;
+
 	// ~ Start jump logic
 
 	virtual void JumpStart();
@@ -58,6 +60,8 @@ protected:
 	// @TODO gonna need to change this when we create the interface (change to actor and just check if it implements the interface)
 	UPROPERTY()
 	ADMirroredActor* InteractableActor;
+	
+	FVector StartLocation;
 
 public:
 
@@ -96,5 +100,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual void Landed(const FHitResult& Hit) override;
+
+	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 
 };

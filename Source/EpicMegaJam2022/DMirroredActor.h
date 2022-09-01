@@ -32,6 +32,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UBoxComponent* BoxComponent;
 
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* SoundOnAction;
+
 	// Starts the action between this actor and it's mirrored partner
 	void StartMirroredAction();
 	
@@ -45,5 +48,8 @@ public:
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintImplementableEvent ,BlueprintCosmetic)
+	void OnAction();
 
 };

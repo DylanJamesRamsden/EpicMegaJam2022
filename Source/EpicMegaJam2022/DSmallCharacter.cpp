@@ -65,6 +65,8 @@ void ADSmallCharacter::Interact()
 				LaunchCharacter(FVector(LinearSwingVelocity), true, true);
 
 				AvailableSwingingHook = nullptr;
+
+				OnCantInteract();
 			}
 		}	
 	}
@@ -84,6 +86,8 @@ void ADSmallCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActo
 			{
 				AvailableSwingingHook = SwingingHook;
 				bCanSwing = true;
+
+				OnCanInteract();
 			}
 		}	
 	}
@@ -116,6 +120,8 @@ void ADSmallCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor*
 				{
 					AvailableSwingingHook = nullptr;
 					bCanSwing = false;
+
+					OnCantInteract();
 				}
 			}
 		}	

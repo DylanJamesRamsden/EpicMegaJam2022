@@ -55,28 +55,6 @@ void ADCharacter::MoveHorizontal(float Value)
 	if (!bLockMovement)
 	{
 		AddMovementInput(FVector::RightVector * Value);
-
-		/*if (Value != 0)
-		{
-			if (Value > 0)
-			{
-				if (!bIsWalkingRight)
-				{
-					bIsWalkingRight = true;
-
-					GetMesh()->SetWorldRotation(FRotator(0.0f, 0.0f, 0.0f));
-				}
-			}
-			else
-			{
-				if (bIsWalkingRight)
-				{
-					bIsWalkingRight = false;
-
-					GetMesh()->SetWorldRotation(FRotator(0.0f, 180.0f, 0.0f));
-				}
-			}
-		}*/
 	}	
 }
 
@@ -91,7 +69,6 @@ void ADCharacter::JumpStart()
 		{
 			float AnimLength = PlayAnimMontage(ChargeJumpAnimation);
 		}
-		
 
 	}
 	else
@@ -162,6 +139,8 @@ void ADCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		InteractableActor = Cast<ADMirroredActor>(OtherActor);
 		
 		bCanInteractWithInteractable = true;
+
+		OnCanInteract();
 	}
 	else if (OtherActor->IsA(ADPressurePlate::StaticClass()))
 	{
@@ -178,6 +157,8 @@ void ADCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* Othe
 		InteractableActor = nullptr;
 		
 		bCanInteractWithInteractable = false;
+
+		OnCantInteract();
 	}
 	else if (OtherActor->IsA(ADPressurePlate::StaticClass()))
 	{
@@ -206,6 +187,11 @@ void ADCharacter::Tick(float DeltaTime)
 		
 		DrawDebugString(GetWorld(), FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 400.0f),
 			FString::SanitizeFloat(JumpCharge), NULL, FColor::Yellow, 0.0f, false, 2);
+	}
+
+	if (GetCharacterMovement()->IsFalling())
+	{
+		if (bIsChargingJump) bIsChargingJump = false;
 	}
 }
 

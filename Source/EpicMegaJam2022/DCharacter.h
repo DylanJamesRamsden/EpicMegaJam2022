@@ -26,8 +26,6 @@ protected:
 	// Moves the character either right or left, depending on the player input
 	virtual void MoveHorizontal(float Value);
 
-	bool bIsWalkingRight = true;
-
 	// ~ Start jump logic
 
 	virtual void JumpStart();
@@ -92,6 +90,12 @@ public:
 	UAnimMontage* ChargeJumpAnimation;
 
 	FTimerHandle ChargeAnimTimerHandle;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCosmetic)
+	void OnCanInteract();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCosmetic)
+	void OnCantInteract();
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

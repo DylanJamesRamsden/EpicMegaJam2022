@@ -39,9 +39,9 @@ void ADBigCharacter::Interact()
 			AvailablePushable->EndPush();
 			bIsPushing = false;
 
-			AvailablePushable = nullptr;
-
 			GetCharacterMovement()->MaxWalkSpeed = NormalWalkSpeed;
+
+			
 		}
 	}
 }
@@ -74,6 +74,8 @@ void ADBigCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor*
 		{
 			AvailablePushable = Cast<ADPushable>(OtherActor);
 			bCanPush = true;
+
+			OnCanInteract();
 		}	
 	}
 }
@@ -85,12 +87,14 @@ void ADBigCharacter::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* O
 
 	if (!bIsPushing)
 	{
-		if (bCanPush)
+		if (OtherActor->IsA(ADPushable::StaticClass()))
 		{
 			if (OtherActor == AvailablePushable)
 			{
 				AvailablePushable = nullptr;
 				bCanPush = false;
+
+				OnCantInteract();
 			}
 		}
 	}
